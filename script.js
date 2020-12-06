@@ -34,6 +34,8 @@ const userSection = document.getElementById("userSection");
 
 const listSection = document.getElementById("listSection");
 
+const logoutButton = document.getElementById("logout");
+
 const editSection = document.getElementById("editSection");
 
 let sessionUserName; 
@@ -44,6 +46,7 @@ function checkUser(){
     sessionUserName = sessionStorage.getItem('userName');
     if(sessionUserName){
         listSection.style.display = "block";
+        logoutButton.style.display = "block";
         userSection.style.display = "none";
         let groceryListFromStorage = localStorage.getItem(sessionUserName);
         if(groceryListFromStorage!==''){
@@ -55,6 +58,7 @@ function checkUser(){
     } else {
         userSection.style.display = "block";
         listSection.style.display = "none";
+        logoutButton.style.display = "none";
     }
 }
 
@@ -134,8 +138,8 @@ function renderList(groceryList) {
       
       li.innerHTML = `
         ${groceryItem.groceryItem}
-        <button class="editButton">edit</button>
-        <button class="deleteButton">X</button>
+        <button class="editButton actionButton">edit</button>
+        <button class="deleteButton actionButton">X</button>
       `;
       groceryItemsList.append(li);
     }); 
@@ -168,4 +172,13 @@ function editItem(id) {
     listSection.style.display = "none";
     editSection.style.display = "block";
     //console.log(editItemDetails.groceryItem);
+}
+
+logoutButton.addEventListener('click', function(event) {
+    logout();
+});
+
+function logout() {
+    sessionStorage.removeItem('userName');
+    location.reload();
 }
